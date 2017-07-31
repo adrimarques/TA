@@ -12,8 +12,9 @@ class StudentConsultPage extends Page {
         title ==~ /Search Student/
     }
 
-    def fillStudentSearch(String parametros){
-        $("form").consult = parametros
+    def fillStudentSearch(String name, String login){
+        $("form").name = name
+		$("form").login = login
     }
 
     def selectSearch(){

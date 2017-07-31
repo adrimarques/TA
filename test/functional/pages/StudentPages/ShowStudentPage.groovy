@@ -25,4 +25,26 @@ class ShowStudentPage extends Page {
     def selectCriterion(String name){
         $("tr").find("td").has("a",text: name).click()
     }
+	
+	def clickDelete(){
+		boolean b = false
+		if ($("input", class: "delete").isDisplayed()) b = true
+	}
+	
+	def confirmationMessage(){
+		if ($("input", class: "delete").isDisplayed())
+			withConfirm {$("input", class: "delete").click()}
+	}
+	
+	def message() {
+		$("g", class: "message").isDisplayed()
+	}
+	
+	def boolean selectDeleteStudent() {
+		boolean b = false
+		if ($("input", class: "delete").isDisplayed()) b = true
+		if(b) {
+			withConfirm {$("input", class: "delete").click()}
+		}
+	}
 }

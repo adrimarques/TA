@@ -27,6 +27,12 @@ class StudentPage extends Page {
     def selectStudentByLogin(String login) {
         $("a", name: login).click()
     }
+	
+	def boolean checkForStudent(String login) {
+		if ($("tbody").has("a", name: login)) return false
+		return true
+		
+	}
 
     boolean qtdStudentTable(int qtdStudent) {
         boolean r = false
