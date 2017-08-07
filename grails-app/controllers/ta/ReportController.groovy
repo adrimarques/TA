@@ -52,27 +52,30 @@ class ReportController {
 		}
 	}
 
-	def save(){
-		def reportInstance = new Report(params)
-		if(!reportInstance.save(flush:true)){
-			render (view: "show", model: [reportInstance: reportInstance])
+	def save(Report reportInstance){
+		if (reportInstance == null) {
+			notFound()
 			return
 		}
-		if(reportInstance.hasErrors()){
-			respond reportInstance.errors, view:'show'
+
+		if (reportInstance.hasErrors()) {
+			respond reportInstance.errors, view:'create'
+			return
 		}
-		reportInstance.fillReport()
-		reportInstance.save(flush: true)
+
+		reportInstance.save flush:true
+
 		request.withFormat {
 			form multipartForm {
-				flash.message = message(code: 'default.updated.message', args: [
-					message(code: 'Report.label', default: 'Report'),
+				flash.message = message(code: 'default.created.message', args: [
+					message(code: 'report.label', default: 'Report'),
 					reportInstance.id
 				])
 				redirect reportInstance
 			}
-			'*'{ respond reportInstance, [status: OK] }
+			'*' { respond reportInstance, [status: CREATED] }
 		}
+
 	}
 
 	def update(Report reportInstance) {

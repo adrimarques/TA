@@ -90,6 +90,37 @@ class CriterionController {
 		respond view: 'createGroup'
 	}
 
+	public Criterion searchCriterion(String desc){
+		def criterionInstance = Criterion.findByDescription(desc)
+		return criterionInstance
+	}
+
+	public Student getStudent(String studentLogin){
+		Student studentFound = Student.findByLogin(studentLogin)
+		return studentFound
+	}
+
+	def search() {
+		render view: "search"
+	}
+
+	def consult() {
+		def auxList = Criterion.list()
+		def criterionList = auxList.findAll {
+			it.description.toLowerCase().contains(params.consult.toLowerCase())
+		}
+		if (criterionList == null) {
+			flash.message = message(code: 'default.not.found.message', args: [
+				message(code: 'criterion.label', default: 'Criterion'),
+				params.id
+			])
+			render view: "search", model: [criterionInstanceList: [], criterionInstanceCount: 0]
+		} else {
+			render view: "search", model: [criterionInstanceList: criterionList, criterionInstanceCount: criterionList.size()]
+		}
+	}
+
+	
 	@Transactional
 	def save(Criterion criterionInstance) {
 		if (criterionInstance == null) {
