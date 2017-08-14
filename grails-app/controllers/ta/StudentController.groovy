@@ -92,12 +92,10 @@ class StudentController {
 
 	public void addEvaluationsToStudentTests(String studentLogin, LinkedList<Evaluation> evaluationList){
 		for (int i = 0; i < Student.list().size(); i++) {
-			if(Student.list().get(i).login.equals(studentLogin)){
-				Student.list().get(i).addEvaluation(evaluationList.get(0))
-				Student.list().get(i).save(
-						flush: true,
-						failOnError: true
-						)
+			Student student_atual=Student.list().get(i);
+			if(student_atual.login.equals(studentLogin)){
+				student_atual.addEvaluation(evaluationList.get(0))
+				student_atual.save(flush: true, failOnError: true)
 			}
 		}
 	}
